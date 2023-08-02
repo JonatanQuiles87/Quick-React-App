@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import CourseList from './components/CourseList';
 import { addScheduleTimes } from './utilities/times';
+import { useData } from './utilities/firebase.js';
 import { QueryClient, QueryClientProvider, useQuery } from "react-query"; 
 /*
 const schedule = {
@@ -35,21 +36,23 @@ const Banner = ({ title }) => (
   <h1>{ title }</h1>
 );
 
-const fetchSchedule = async () => {
+/*const fetchSchedule = async () => {
   const url = 'https://courses.cs.northwestern.edu/394/data/cs-courses.php';
   const response = await fetch(url); 
   if (!response.ok) throw response;
   return addScheduleTimes(await response.json());
-};
+};*/
 
 const Main = () =>  {
-  const {data: schedule, isLoading, error } = useQuery('schedule', fetchSchedule);
+  const [schedule, loading, error] = useData('/', addScheduleTimes);
+  console.log(schedule,'´ciao')
   
   if (error) return <h1>{error}</h1>;
-  if (isLoading) return <h1>Loading the schedule...</h1>
+  if (loading) return <h1>Loading the schedule...</h1>
 
   return (
     <div className="container">
+  
       <Banner title={ schedule.title } />
       <CourseList courses={ schedule.courses } /> 
     </div>
