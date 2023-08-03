@@ -3,7 +3,9 @@ import './App.css';
 import CourseList from './components/CourseList';
 import { addScheduleTimes } from './utilities/times';
 import { useData } from './utilities/firebase.js';
-import { QueryClient, QueryClientProvider, useQuery } from "react-query"; 
+import { QueryClient, QueryClientProvider} from "react-query"; 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EditForm from './EditForm';
 /*
 const schedule = {
   "title": "CS Courses for 2018-2019",
@@ -54,7 +56,12 @@ const Main = () =>  {
     <div className="container">
   
       <Banner title={ schedule.title } />
-      <CourseList courses={ schedule.courses } /> 
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CourseList courses={ schedule.courses } />} />
+          <Route path="/edit" element={ <EditForm /> } />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

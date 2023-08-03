@@ -50,3 +50,6 @@ const database = getDatabase(app);
   
     return [data, loading, error];
   };
+  export const setData = (path, value) => (
+    set(ref(database, path), value)
+  );
