@@ -1,11 +1,13 @@
 import {getCourseNumber,getCourseTerm,hasConflict} from "../utilities/times";
 import { useNavigate } from 'react-router-dom';
+import { useUserState } from "../utilities/firebase";
 
 
 const Course = ({ course, selected, setSelected }) => {
     const navigate = useNavigate();
     const isSelected = selected.includes(course);
     const isDisabled = !isSelected && hasConflict(course, selected);
+    const [user] = useUserState();
     const style = {
       backgroundColor: isDisabled? 'lightgrey' : isSelected ? 'lightgreen' : 'white'
     };

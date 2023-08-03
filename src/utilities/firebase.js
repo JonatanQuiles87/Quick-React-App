@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { useState, useEffect } from 'react';
 import { getDatabase, onValue, ref, set } from 'firebase/database';
+import { getAuth, GoogleAuthProvider, onIdTokenChanged, signInWithPopup, signOut } from 'firebase/auth';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 
@@ -53,3 +54,19 @@ const database = getDatabase(app);
   export const setData = (path, value) => (
     set(ref(database, path), value)
   );
+  export const signInWithGoogle = () => {
+    signInWithPopup(getAuth(app), new GoogleAuthProvider());
+  };
+  const firebaseSignOut = () => signOut(getAuth(app));
+
+export { firebaseSignOut as signOut };
+
+export const useUserState = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+      onIdTokenChanged(getAuth(app), setUser)
+  }, []);
+  console.log('user', user);
+  return [user];
+}
